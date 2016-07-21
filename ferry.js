@@ -1,24 +1,23 @@
 module.exports = function(maxCars, maxPeople) {
-    var people_count = 0;
-    var car_count = 0;
-    this.cars = [];
-    this.carColors = {};
+    var people_count = 0,
+        car_count = 0,
+        cars = [],
+        carColors = {};
+
     this.maxCars = maxCars;
     this.maxPeople = maxPeople;
 
     this.board = function(car) {
-
-        people_count += car.passengers;
-        car_count++;
-
         if (people_count > this.maxPeople || car_count > this.maxCars) {
             return "rejected";
         } else {
-            this.cars.push(car);
-            if (!this.carColors.hasOwnProperty(car.color)) {
-                this.carColors[car.color] = 1;
+            people_count += car.passengers;
+            car_count++;
+            cars.push(car);
+            if (!carColors.hasOwnProperty(car.color)) {
+                carColors[car.color] = 1;
             } else {
-                this.carColors[car.color]++;
+                carColors[car.color]++;
             }
             return "accepted";
         }
@@ -26,23 +25,30 @@ module.exports = function(maxCars, maxPeople) {
 
     this.disembark = function(car) {
 
-        console.log(car.passengers);
-        console.log(people_count);
         people_count -= car.passengers;
         car_count--;
 
-        var carIndex = this.cars.indexOf(car);
+        var carIndex = cars.indexOf(car);
 
         if (carIndex > -1) {
-            this.cars.splice(carIndex, 1);
+            cars.splice(carIndex, 1);
         };
+        carColors[car.color]--;
     };
 
-    this.carCount = function(){
-      return car_count;
+    this.carCount = function() {
+        return car_count;
     };
 
-    this.peopleCount = function(){
-      return people_count;
+    this.peopleCount = function() {
+        return people_count;
+    };
+
+    this.cars = function() {
+        return cars;
+    };
+
+    this.carColors = function() {
+        return carColors;
     };
 };
