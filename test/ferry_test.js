@@ -46,11 +46,11 @@ describe('ferry kata', function() {
         assert.deepEqual(island_ferry.cars(), [{
             color: 'blue',
             passengers: 4,
-            ferry_trips : 1
+            total_ferry_trips : 1
         }, {
             color: 'red',
             passengers: 14,
-            ferry_trips : 1
+            total_ferry_trips : 1
         }]);
     });
 
@@ -78,7 +78,7 @@ describe('ferry kata', function() {
         assert.deepEqual(island_ferry.cars(), [{
             color: 'blue',
             passengers: 4,
-            ferry_trips : 1
+            total_ferry_trips : 1
         }]);
     });
 
@@ -93,12 +93,40 @@ describe('ferry kata', function() {
         assert.equal(island_ferry.peopleCount(), 4);
     });
 
-    it("should return 'accepted at half price!' when car boards the ferry after 3 trips", function() {
+    it("should return 'accepted, half price!' when car boards the ferry after 3 trips", function() {
         var island_ferry = new Ferry(5, 20);
         var blueCar = new Car('blue', 4);
         island_ferry.board(blueCar);
         island_ferry.board(blueCar);
         island_ferry.board(blueCar);
-        assert.equal(island_ferry.board(blueCar), 'accepted at half price!');
+        assert.equal(island_ferry.board(blueCar), 'accepted, half price!');
+    });
+
+    it("should return 'accepted, you go free!' when car boards any ferry after 7 trips", function() {
+        var island_ferry = new Ferry(10, 20);
+        var orangeCar = new Car('orange', 2);
+        island_ferry.board(orangeCar);
+        island_ferry.board(orangeCar);
+        island_ferry.board(orangeCar);
+        island_ferry.board(orangeCar);
+        island_ferry.board(orangeCar);
+        island_ferry.board(orangeCar);
+        island_ferry.board(orangeCar);
+        assert.equal(island_ferry.board(orangeCar), 'accepted, you go free!');
+    });
+
+    it("should return 'accepted, you go free!' when car boards any ferry after 7 trips", function() {
+        var island_ferry = new Ferry(10, 30);
+        var north_island_ferry = new Ferry (4, 10);
+        var south_island_ferry = new Ferry(5, 20);
+        var orangeCar = new Car('orange', 2);
+        island_ferry.board(orangeCar);
+        south_island_ferry.board(orangeCar);
+        island_ferry.board(orangeCar);
+        island_ferry.board(orangeCar);
+        north_island_ferry.board(orangeCar);
+        island_ferry.board(orangeCar);
+        south_island_ferry.board(orangeCar);
+        assert.equal(north_island_ferry.board(orangeCar), 'accepted, you go free!');
     });
 });

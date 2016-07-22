@@ -2,7 +2,8 @@ module.exports = function(maxCars, maxPeople) {
     var people_count = 0,
         car_count = 0,
         cars = [],
-        carColors = {};
+        carColors = {},
+        ferry_trips = 0;
 
     this.maxCars = maxCars;
     this.maxPeople = maxPeople;
@@ -14,7 +15,8 @@ module.exports = function(maxCars, maxPeople) {
             people_count += car.passengers;
             car_count++;
             cars.push(car);
-            car.ferry_trips++;
+            ferry_trips++;
+            car.total_ferry_trips++;
 
             if (!carColors.hasOwnProperty(car.color)) {
                 carColors[car.color] = 1;
@@ -22,11 +24,13 @@ module.exports = function(maxCars, maxPeople) {
                 carColors[car.color]++;
             };
 
-            if (car.ferry_trips >= 3 && car.ferry_trips !== 0 && car.ferry_trips < 7) {
-                return 'accepted at half price!';
+            if (ferry_trips !== 0 && ferry_trips > 3  && ferry_trips < 7) {
+                return 'accepted, half price!';
 
-            } else if (car.ferry_trips >= 7 && car.ferry_trips !== 0 && car.ferry_trips > 3) {
-                return 'you go free!';
+            } else if (car.total_ferry_trips !== 0 && car.total_ferry_trips > 7) {
+                ferry_trips = 0;
+                car.total_ferry_trips = 0;
+                return 'accepted, you go free!';
             };
             return "accepted";
         };
