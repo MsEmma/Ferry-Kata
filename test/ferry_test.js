@@ -5,7 +5,7 @@ var Ferry = require('../ferry');
 describe('ferry kata', function() {
 
     it('should return 20 for maximum number of people allowed on the ferry', function() {
-        var island_ferry = new Ferry(5, 20);        
+        var island_ferry = new Ferry(5, 20);
         assert.equal(island_ferry.maxPeople, 20);
     });
 
@@ -45,10 +45,12 @@ describe('ferry kata', function() {
         island_ferry.board(redCar);
         assert.deepEqual(island_ferry.cars(), [{
             color: 'blue',
-            passengers: 4
+            passengers: 4,
+            ferry_trips : 1
         }, {
             color: 'red',
-            passengers: 14
+            passengers: 14,
+            ferry_trips : 1
         }]);
     });
 
@@ -75,7 +77,8 @@ describe('ferry kata', function() {
         assert.equal(island_ferry.carCount(), 1);
         assert.deepEqual(island_ferry.cars(), [{
             color: 'blue',
-            passengers: 4
+            passengers: 4,
+            ferry_trips : 1
         }]);
     });
 
@@ -88,5 +91,14 @@ describe('ferry kata', function() {
         assert.equal(island_ferry.peopleCount(), 18);
         island_ferry.disembark(redCar);
         assert.equal(island_ferry.peopleCount(), 4);
+    });
+
+    it("should return 'accepted at half price!' when car boards the ferry after 3 trips", function() {
+        var island_ferry = new Ferry(5, 20);
+        var blueCar = new Car('blue', 4);
+        island_ferry.board(blueCar);
+        island_ferry.board(blueCar);
+        island_ferry.board(blueCar);
+        assert.equal(island_ferry.board(blueCar), 'accepted at half price!');
     });
 });

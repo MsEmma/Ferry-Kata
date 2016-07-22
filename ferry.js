@@ -14,13 +14,22 @@ module.exports = function(maxCars, maxPeople) {
             people_count += car.passengers;
             car_count++;
             cars.push(car);
+            car.ferry_trips++;
+
             if (!carColors.hasOwnProperty(car.color)) {
                 carColors[car.color] = 1;
             } else {
                 carColors[car.color]++;
-            }
+            };
+
+            if (car.ferry_trips >= 3 && car.ferry_trips !== 0 && car.ferry_trips < 7) {
+                return 'accepted at half price!';
+
+            } else if (car.ferry_trips >= 7 && car.ferry_trips !== 0 && car.ferry_trips > 3) {
+                return 'you go free!';
+            };
             return "accepted";
-        }
+        };
     };
 
     this.disembark = function(car) {
