@@ -93,7 +93,7 @@ describe('ferry kata', function() {
         assert.equal(island_ferry.peopleCount(), 4);
     });
 
-    it("should return 'accepted, half price!' when car boards the ferry after 3 trips", function() {
+    it("should return 'accepted, half price!' when car boards the same ferry after 3 trips", function() {
         var island_ferry = new Ferry(5, 20);
         var blueCar = new Car('blue', 4);
         island_ferry.board(blueCar);
@@ -102,7 +102,18 @@ describe('ferry kata', function() {
         assert.equal(island_ferry.board(blueCar), 'accepted, half price!');
     });
 
-    it("should return 'accepted, you go free!' when car boards any ferry after 7 trips", function() {
+    it("should return 'accepted' when car boards different ferries on 3 trips", function() {
+        var island_ferry = new Ferry(10, 30);
+        var north_island_ferry = new Ferry (4, 10);
+        var south_island_ferry = new Ferry(5, 20);
+        var orangeCar = new Car('orange', 2);
+        island_ferry.board(orangeCar);
+        south_island_ferry.board(orangeCar);
+        north_island_ferry.board(orangeCar);
+        assert.equal(north_island_ferry.board(orangeCar), 'accepted');
+    });
+
+    it("should return 'accepted, you go free!' when car boards same ferry after 7 trips", function() {
         var island_ferry = new Ferry(10, 20);
         var orangeCar = new Car('orange', 2);
         island_ferry.board(orangeCar);
@@ -129,4 +140,5 @@ describe('ferry kata', function() {
         south_island_ferry.board(orangeCar);
         assert.equal(north_island_ferry.board(orangeCar), 'accepted, you go free!');
     });
+
 });
